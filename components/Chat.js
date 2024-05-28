@@ -5,8 +5,8 @@ export default function Chat(props){
     const [chatId,setChatId] = useState(null);
     const {currentUser} = useContext(NomadsContext);
     useEffect(()=>{
-      Moralis.initialize("pzWwcygf5CVZ2MA3XEgqxq8snizI54n4pyozkwHU");
-      Moralis.serverURL = "https://a299-203-202-242-131.ngrok-free.app/server";
+      Moralis.initialize(process.env.APPLICATION_ID);
+      Moralis.serverURL = process.env.PARSE_URL;
         setChatId(props.chatId)
         init()
         getHistory()

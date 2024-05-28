@@ -24,7 +24,7 @@ const style = {
 }
 
 const Card = () => {
-  const {user,isAuthenticated} = useMoralis()
+  const {user,isAuthenticated,isAuthenticating} = useMoralis()
   const { currentAccount, cardsData ,userRegister,requestToCreateUserProfile} = useContext(NomadsContext)
   const [chat,setChat] = useState(false);
   const [group,setGroup] =useState(true);
@@ -33,8 +33,8 @@ const Card = () => {
 
   
   useEffect(()=>{
-      Moralis.initialize("pzWwcygf5CVZ2MA3XEgqxq8snizI54n4pyozkwHU");
-      Moralis.serverURL = "https://a299-203-202-242-131.ngrok-free.app/server";
+      Moralis.initialize(process.env.APPLICATION_ID);
+      Moralis.serverURL = process.env.PARSE_URL;
       if(chat && group){
         getGroupChats();
       }
@@ -78,6 +78,13 @@ const Card = () => {
       return(
         <div className={style.cardMain}>
           Connect your wallet
+        </div>
+      )
+    }
+    else if(isAuthenticating){
+      return(
+        <div className={style.cardMain}>
+          Connecting
         </div>
       )
     }

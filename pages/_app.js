@@ -5,7 +5,7 @@ import { NomadsProvider } from '../context/NomadsContext'
 function MyApp({ Component, pageProps }) {
   return (
     <MoralisProvider
-    serverUrl='https://a299-203-202-242-131.ngrok-free.app/server'
+    serverUrl='http://localhost:1337/server'
     appId='001'
     >
       <NomadsProvider>

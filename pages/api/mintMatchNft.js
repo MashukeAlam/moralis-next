@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 
 const mintMatchNft = async (req, res) => {
   await Moralis.start({
-    serverUrl: "https://a299-203-202-242-131.ngrok-free.app/server",
+    serverUrl: process.env.PARSE_URL,
     appId: "001",
     masterKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjIzMmFlZGFiLTliYzItNDE1NS05NTc3LTZhMTA5NmFkNDQxNSIsIm9yZ0lkIjoiMzkzNzQ5IiwidXNlcklkIjoiNDA0NTk1IiwidHlwZUlkIjoiMjgxZWFkYzAtMTRmMi00NWZjLTkwOTYtNWUwZmJiZWEzZjQ5IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTY2OTcxOTYsImV4cCI6NDg3MjQ1NzE5Nn0.NkzfzSmZbQnBuU1-XKxz5ElgC0z-HN8lAlfbKDcU8lw",
   })

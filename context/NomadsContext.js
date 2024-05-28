@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker'
 export const NomadsContext = createContext()
 
 export const NomadsProvider = ({ children }) => {
-  const { authenticate, isAuthenticated, user, Moralis } = useMoralis()
+  const { authenticate, isAuthenticated, user, Moralis, enableWeb3 } = useMoralis()
   const [cardsData, setCardsData] = useState([])
   const [currentAccount, setCurrentAccount] = useState()
   const [currentUser, setCurrentUser] = useState()
@@ -38,14 +38,47 @@ export const NomadsProvider = ({ children }) => {
   }
 
   const connectWallet = async () => {
+    
     if (!isAuthenticated) {
       try {
-        await authenticate({
-          signingMessage: 'Log in using Moralis',
+        console.log("Enable web3 trying...");
+        await enableWeb3({
+          throwOnError: true,
+          provider: "metamask"
         })
+
+        const {account, chainId} = Moralis
+        if (!account) {
+          throw new Error(
+            "Connecting to chain failed, as no connected account was found"
+          );
+        }
+        if (!chainId) {
+          throw new Error(
+            "Connecting to chain failed, as no connected chain was found"
+          );
+        }
+
+        console.log(account, chainId);
+
+        // Get message to sign from the auth api
+      const { message } = await Moralis.Cloud.run("requestMessage", {
+        address: account,
+        chain: parseInt(chainId, 16),
+        network: "evm",
+      });
+
+        console.log("Attempting to authenticate");
+        await authenticate({
+          signingMessage: message,
+          throwOnError: true
+        });
+        console.log("Authenticated", user);
       } catch (error) {
-        console.error(error)
+        console.error("Authentication error:", error);
       }
+    } else {
+      console.log("Already authenticated");
     }
   }
 
