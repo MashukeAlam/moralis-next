@@ -136,7 +136,8 @@ const Card = () => {
     ownerquery.equalTo("owner",user.get("ethAddress"));
     const matcherquery = new Moralis.Query(Chats);
     matcherquery.equalTo("matcher",user.get("ethAddress"));
-    const query = Moralis.Query.or(ownerquery,matcherquery)
+    const query = await Moralis.Query.or(ownerquery, matcherquery)
+    console.log('Here', Moralis.Query, ownerquery, matcherquery)
     const results = await query.find();
     console.log(results.length)
     const roomList = document.getElementById("roomList");
